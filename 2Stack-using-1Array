@@ -1,0 +1,64 @@
+#include<iostream> 
+#include<queue>
+#include<string>
+using namespace std; 
+
+class Stack {  
+	queue<int> q1, q2; 
+	int current; //size at that moment
+public: 
+	Stack()  //constructor
+	{ 
+		current = 0;  //initialise
+	} 
+	void push(int x) 
+	{ 
+		current++; 
+		//denotes entry of element as it updates the current size 
+		q2.push(x); 
+		// Push all the remaining 
+		// elements in q1 to q2. 
+		while (!q1.empty()) { 
+			q2.push(q1.front());  //popping the elements of 1st queue so as to 
+                                  //make it function like a stack.
+			q1.pop(); 
+		}
+		queue<int> q = q1; q1 = q2; q2 = q;  
+	} 
+	void pop()  
+	{ 
+		// Terminal Condition 
+		if (q1.empty()) 
+			return; 
+		q1.pop(); 
+		current--; 
+	} 
+	int top()  //function of a stack to return the topmost element, implemeted using queue
+	{ 
+		if (q1.empty()) 
+			return -1; 
+		return q1.front(); 
+	} 
+	int size() 
+	{ return current; } 
+}; 
+//can be made into a menu driven prgram. Just change 
+//the input condition by a number and use a do-while loop.
+int main() 
+{ 
+	Stack s; 
+	s.push(100); 
+	s.push(200); 
+	s.push(300); 
+
+	cout << "current: " << s.size() << endl; 
+	cout << s.top() << endl; 
+	s.pop(); 
+	cout << s.top() << endl; 
+	s.pop(); 
+	cout << s.top() << endl; 
+    cout << "current: " << s.size() << endl; 
+	return 0; 
+} 
+
+
