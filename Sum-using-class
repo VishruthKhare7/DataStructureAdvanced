@@ -1,0 +1,53 @@
+#include<iostream>
+#include<vector>
+using namespace std;
+
+class SumOfN{
+	
+	public:
+		int n;
+		vector<int> a;
+		SumOfN()
+		{
+			cin>>n;
+		}
+		
+		
+		void input()
+		{
+			
+			for(int i=0;i<n;i++)
+			{
+				int d;
+				cin>>d;
+				
+				a.push_back(d);
+				
+			}
+		}
+		
+		int sum()
+		{
+			int s=0;
+			for(int i=0;i<n;i++)
+			{
+				s+=a[i];
+			}
+			return s;
+		}
+	
+};
+
+
+
+int main()
+{
+	
+	SumOfN a;
+	
+	a.input();
+	cout<<a.sum();
+	
+	return 0;
+	
+}
