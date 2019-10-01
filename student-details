@@ -1,0 +1,48 @@
+#include<iostream>
+#include<vector>
+using namespace std;
+
+class students{
+    
+    string s;         //name
+    int rno;          //roll number
+    char g;           //gender
+    public:
+    students()
+    {
+    	cin>>s>>rno>>g;
+	}
+	
+	void output()
+	{
+		cout<<s<<" "<<rno<<" "<<g<<endl;
+	}
+	
+	
+};
+
+int main()
+{
+	int n;
+	cin>>n;
+	
+	vector<students> v;
+	for(int i=0;i<n;i++)
+	{
+	
+	students a;
+	
+	v.push_back(a);
+	
+    }
+    
+    
+	for(int i=0;i<n;i++)
+	{
+	
+    v[i].output();
+	
+    }
+	
+	return 0;
+}
