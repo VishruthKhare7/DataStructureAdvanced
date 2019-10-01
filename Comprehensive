@@ -1,0 +1,127 @@
+#include<iostream>
+#include<cmath>
+
+using namespace std;
+
+class Characterstics{
+	
+	int n;
+	public:
+		Characterstics(int a)
+		{
+			n=a;
+		}
+		
+	 reverse()
+		{
+			int temp=n;
+			int a=0;
+			while(temp!=0)
+			{
+				int r=temp%10;
+				a=a*10+r;
+				temp=temp/10;
+			}
+			
+			cout<<a<<endl;
+		}
+		
+	 SumOfDigits()
+	   {
+	   	int temp=n;
+		  int sum=0;
+			while(temp!=0)
+			{
+				int r=temp%10;
+				sum+=r;
+				temp=temp/10;
+			}
+		  cout<<sum<<endl;
+	   }	
+		
+       armstrong()
+       {
+          int temp=n;
+			int sum=0;
+			while(n!=0)
+			{
+				int r=n%10;
+				sum+=pow(r,3);
+				n=n/10;
+			}
+			
+			if(sum==temp)
+			cout<<"YES"<<endl;
+			else
+			cout<<"NO"<<endl; 
+	   }
+	
+	
+	   prime()
+	   {
+	   	int temp=n;
+	   	int s=sqrt(temp);
+	   	int count=0;
+	   	for(int i=2;i<=s;i++)
+	   	{
+	   	 if(n/i==0)
+			{
+			 cout<<"NO"<<endl;
+			 count++;
+			 break;	
+			}	
+		}
+		if(count==0)
+		cout<<"YES"<<endl;
+	   }
+	
+};
+
+int main()
+{
+	int a;
+	cin>>a;
+	while(a!=-1)
+	  {
+	  	Characterstics b(a);
+		cout<<"enter R to find reverse"<<endl;
+		cout<<"enter S to find Sum of Digits"<<endl;
+		cout<<"enter A to check if number is armstrong"<<endl;
+		cout<<"enter P to check if number is prime"<<endl;
+		cout<<"enter E to enter another number"<<endl;
+		
+		char c;
+		cin>>c;
+		while(c!='E')
+		 {
+		 	if(c=='R')
+		 	{
+		 		b.reverse();
+			}
+			else
+			if(c=='S')
+			{
+				b.SumOfDigits();
+			}
+			else
+			if(c=='A')
+			{
+				b.armstrong();
+			}
+			else
+			if(c=='P')
+			{
+				b.prime();
+			}
+			else
+			{
+				break;
+			}
+			cin>>c;
+		 }
+		cin>>a; 	
+	  }
+	
+	
+	return 0;
+}
