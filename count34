@@ -1,0 +1,23 @@
+// Cpp program to find the count of numbers that 
+// can be formed using digits 3, 4 only and 
+// having length at max N. 
+#include <bits/stdc++.h> 
+using namespace std; 
+  
+// Function to find the count of numbers that 
+// can be formed using digits 3, 4 only and 
+// having length at max N. 
+long long numbers(int n) 
+{ 
+    return (long long)(pow(2, n + 1)) - 2; 
+} 
+  
+// Driver code 
+int main() 
+{ 
+    int n = 2; 
+  
+    cout << numbers(n); 
+  
+    return 0; 
+}
