@@ -1,0 +1,89 @@
+// C++ program for the above approach
+#include <iostream>
+using namespace std;
+ 
+// Function to count number of
+// sub-strings of a given binary
+// string that contains only 1
+int countSubAllOnes(string s)
+{
+    int l = 0, r = 0, ans = 0;
+ 
+    // Iterate untill L and R cross
+    // each other
+    while (l <= r) {
+ 
+        // Check if reached the end
+        // of string
+        if (r == s.length()) {
+            ans += ((r - l) * (r - l + 1)) / 2;
+            break;
+        }
+ 
+        // Check if encountered '1'
+        // then extend window
+        if (s[r] == '1')
+            r++;
+ 
+        // Check if encountered '0' then
+        // add number of strings of
+        // current window and change the
+        // values for both l and r
+        else {
+ 
+            ans += ((r - l) * (r - l + 1)) / 2;
+            l = r + 1;
+            r++;
+        }
+    }
+ 
+    // Return the answer
+    return ans;
+}
+ 
+// Function to flip the bits of string
+void flip(string& s)
+{
+ 
+    for (int i = 0; s[i]; i++) {
+        if (s[i] == '1')
+            s[i] = '0';
+        else
+            s[i] = '1';
+    }
+  cout<<s<<endl;
+}
+ 
+// Function to count number of
+// sub-strings of a given binary
+// string that contains only 0s & 1s
+int countSubAllZerosOnes(string s)
+{
+ 
+    // count of substring
+    // which contains only 1s
+    int only_1s = countSubAllOnes(s);
+ 
+    // Flip the character of string s
+    // 0 to 1 and 1 to 0 to count the
+    // substring with consecutive 0s
+    flip(s);
+  cout<<s<<endl;
+ 
+    // count of substring
+    // which contains only 0s
+    int only_0s = countSubAllOnes(s);
+ 
+    return only_0s + only_1s;
+}
+ 
+// Driver Code
+int main()
+{
+    // Given string str
+    string s = "011";
+ 
+    // Function Call
+    cout << countSubAllZerosOnes(s) << endl;
+    return 0;
+}
