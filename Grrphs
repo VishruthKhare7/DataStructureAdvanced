@@ -1,0 +1,195 @@
+#include<iostream>
+#include<string>
+#include<vector>
+#include<cstring>
+#include<list> 
+#include<queue>
+using namespace std ;
+
+class edge 
+{
+public:
+    int v = 0 ; 
+    int w = 0 ;
+    edge ( int v = 0 , int w = 0 )
+    {
+        this->v = v;
+        this->w = w;
+    }
+};
+
+vector<vector<edge*> > graph (7, vector<edge*> () ) ;
+
+void addEdge ( int u, int v, int w) 
+{
+    if ( u < 0 || v<0 || u>graph.size() || v>graph.size() ) return ;
+    graph[u].push_back ( new edge ( v, w) ) ;
+    graph[v].push_back ( new edge ( u, w) ) ;
+}
+
+void display () 
+{
+    for (int i = 0 ; i < graph.size() ; i++ ) 
+    {
+        cout<<i<<" --> "; 
+        for ( int j = 0 ; j < graph[i].size() ; j++ ) 
+        {
+            cout<<" ( " << graph[i][j]->v <<" ) " ;
+        }
+        cout<<endl;
+    }
+}
+
+void removeEdge ( int u , int v ) 
+{
+    int i = -1 , j = -1 ;
+    for ( int k = 0 ; k < graph[u].size() ; k++ )
+    {
+        if ( graph[u][k] -> v == v) 
+        {
+            i = k ;
+            break ;
+        }
+    }
+    for ( int k = 0 ; k < graph[v].size() ; k++ )
+    {
+        if ( graph[v][k] -> v == u) 
+        {
+            j = k ;
+            break ;
+        }
+    }
+    graph[u].erase(graph[u].begin() + i) ;
+    graph[v].erase(graph[v].begin() + j) ;
+}
+
+void removeVertex ( int u ) 
+{
+    for ( int i = graph[u].size() - 1 ; i >= 0 ; i-- )
+        removeEdge (u,graph[u][i]->v) ;
+}
+
+vector<int> size (graph.size() , 1) ;
+int parent [7] = {0,1,2,3,4,5,6} ;
+
+class mst 
+{
+public:
+    int vtx ;
+    int pvetx ;
+    int wt ;
+    mst (int vtx , int pvtx, int wt) 
+    {
+        this->vtx = vtx ;
+        this->pvtx = pvtx ;
+        this->wt = wt ;
+    }
+    mst () {}
+};
+
+
+
+/*
+void has_path (int start, int end, vector<bool>& visited, string ans) 
+{
+    //base case
+    if ( start == end ) 
+    {
+        cout<<ans + to_string (start) <<endl ;
+        return ;
+    }
+    if ( visited[start] == true )   return ;
+    for ( int i = 0 ; i < graph[start].size() ; i++ )
+    {
+        visited[start] = true ;
+        has_path ( graph[start][i]->v , end , visited, ans + to_string (start) + " -> ") ;
+        visited[start] = false; 
+    }
+}
+
+void preOrder ( int start, int end, vector<bool>& visited, string ans)
+{
+    visited[start] = true ;
+    cout<<ans<<""<<to_string(start)<<" -> " <<endl ;
+    for ( int i = 0 ; i < graph[start].size() ; i++ )
+    {
+        int nbr = graph[start][i]->v ;
+        if ( !visited[nbr] )  
+        {
+            preOrder ( nbr , end , visited, ans+to_string(start) + " -> ") ;
+        }
+    }
+    visited[start] = false ;
+}
+
+void postOrder ( int start, int end, vector<bool>& visited, string ans)
+{
+    visited[start] = true ;
+    for ( int i = 0 ; i < graph[start].size() ; i++ )
+    {
+        int nbr = graph[start][i]->v ;
+        if ( !visited[nbr] )  
+        {
+            postOrder ( nbr , end , visited, ans+to_string(start) + " -> ") ;
+        }
+    }
+    cout<<ans<<""<<to_string(start)<<" -> " <<endl ;
+    visited[start] = false ;
+}
+
+class minWt 
+{
+    int wei = 1000000 ;
+    string ans = "" ;
+    minWt (int wei = 0 , string ans = "")
+    {
+        this->wei = wei; 
+        this->ans = ans; 
+    }
+};
+
+vector<minWt*> minWeight (int start, int end, int weight, vector<bool>& visited, string ans) 
+{
+    //base case
+    if ( start == end ) 
+    {
+        minWt* base ;
+        base.push_back (new minWt (weight , ans) );
+        return base;
+    }
+    if ( visited[start] == true )   
+    {
+        minWt* fake ;
+        return fake ;
+    }
+    minWt* myAns ; 
+    for ( int i = 0 ; i < graph[start].size() ; i++ ) 
+    {
+        myAns = minWeight (graph[start][i]->v , end , weight + graph[start][i]->w , visited, ans + to_string(start) + "->") ;
+        return myAns ; 
+    }
+}
+*/
+
+
+void caller ()
+{
+    //addEdge (0,1,10) ;
+    //addEdge (0,3,10) ;
+    //addEdge (1,2,10) ;
+    //addEdge (2,3,40) ;
+    //addEdge (3,4,10) ;
+    //addEdge (4,5,2) ;
+    //addEdge (4,6,3) ;
+    //addEdge (5,6,8) ;
+}
+
+int main ()
+{
+
+    cout<<endl;
+    caller() ;
+    cout<<endl;
+
+    return 0;
+}
