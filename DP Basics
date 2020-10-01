@@ -1,0 +1,204 @@
+Given a 2 x N grid of integer, A, choose numbers such that the sum of the numbers
+is maximum and no two chosen numbers are adjacent horizontally, vertically or diagonally, and return it.
+Note: You can choose more than 2 numbers.
+
+Idea : Chose the maximum of the two elements in a given column and store it in a nums array. After that we just need to find the max sum without the adjacent number included. 
+    The idea that should immediately come in mind is that since its an optimisation problem, we need to find the max at every step becuase minimum will just decrease the count.
+    Moreover, exclude the negative elements as they are just going to decrease the sum.
+
+int Solution::adjacent(vector<vector<int> > &A) {
+    //base case
+    if ( A[0].size() == 1 )
+        return max (A[0][0] , A[1][0]) ;
+    vector < int > nums ; 
+    for ( int i = 0 ; i < A[0].size() ; i++ )
+        nums.push_back ( max(A[0][i] , A[1][i]) ) ;
+    vector < int > dp ( nums.size() , 0) ;
+    dp[0] = nums[0] ;
+    dp[1] = nums[1] ;
+    int msf = max ( dp[0] , dp[1] ) ;
+    for ( int i = 2 ; i < nums.size() ; i++ )
+    {
+        for ( int j = i-2 ; j >= 0 ; j-- )
+        {
+           dp[i] = max ( dp[i] , dp[j]+nums[i] ) ; 
+        }
+        msf = max (  msf , dp[i] ) ;
+    }
+    return msf;
+}
+_____________________________________________________________________________
+
+Maximum path sum in a binary tree. 
+
+The beauty of this solution is that it finds the max (0, ...) so it autimatically secludes the negative answers. Beautiful !! 
+
+class Solution {
+public:
+    int maxPathSum(TreeNode *root) {
+        int maxAns = INT_MIN;
+        maxPathAndGlobalUpdate(root, maxAns);
+        return maxAns;
+    }
+
+    int maxPathAndGlobalUpdate(TreeNode *root, int &global_max) {
+        if (root == NULL) return 0;
+        int l = max(0, maxPathAndGlobalUpdate(root->left, global_max));
+        int r = max(0, maxPathAndGlobalUpdate(root->right, global_max));
+        global_max = max(global_max, l + r + root->val);
+        return root->val + max(l, r);
+    }
+};
+______________________________________________________________________________
+
+Given three prime numbers A, B and C and an integer D.
+You need to find the first(smallest) D integers which only have A, B, C or a combination of them as their prime factors.
+
+Idea : In these kind of questions, a general pattern to follow is make 3 arrays of the 
+______________________________________________________________________________
+
+Given an array of non-negative integers, A, of length N, you are initially positioned at the first index of the array.
+Each element in the array represents your maximum jump length at that position.
+Return the minimum number of jumps required to reach the last index.
+
+NOTE: A very important test case here is that if A[0] == 0, then the process wont even start. 
+
+NOTE 2 : Greedy works better here in this case, think of that solution !! 
+
+int Solution::jump(vector<int> &A) {
+    //base case 
+    if ( A.size() == 0 || ( A.size() == 1 ) ) 
+        return 0 ;
+    if (A[0] == 0)
+        return -1 ; 
+    vector < int > dp (A.size() , 0 ) ;
+    for ( int i = 0 ; i < A.size()-1 ; i++ )
+    {
+        for ( int j=1 ; j <= A[i] ; j++ )
+        {
+            if ( i+j > A.size() )
+                continue ; 
+            if ( dp[i+j] > 0 )
+                continue ;
+            dp[i+j] = dp[i] + 1 ;
+        }
+    }
+    if ( dp[A.size()-1] == 0 )
+        return -1 ;
+    else 
+        return dp[A.size()-1] ;
+}
+_____________________________________________________________________________
+
+Ugly Number - II 
+Find the nth number that is a multiple of 2 , 3 , 5 only 
+
+class Solution {
+public:
+    int nthUglyNumber(int n) {
+         int p2=0,p3=0,p5=0;
+        vector<int> dp;
+        dp.push_back(1);
+        int i=1;
+        while(i<n){
+            dp.push_back(min({2*dp[p2],3*dp[p3],5*dp[p5]}));
+            if(dp[i]==dp[p2]*2)
+                p2++;
+            if(dp[i]==dp[p3]*3)
+                p3++;
+            if(dp[i]==dp[p5]*5)
+                p5++;
+            i++;
+        }
+        return dp[n-1];
+    }
+};
+_____________________________________________________________________________
+
+How many ways to make a certain sum with infinite number of coins
+ex: amount : 4 , coins type [ 1,2,3 ] ;
+
+NOTE : Do this is O(N) space. Highly optimized technique. Same as n^2 DP but this time we compute the cumulative sum uptil that point 
+
+int Solution::coinchange2(vector<int> &A, int B) 
+{
+    int dp[B+1];
+    memset(dp,0,sizeof(dp));
+    dp[0] = 1;
+    for(int i=0;i<A.size();i++)
+    {
+        for(int j=0;j<=B-A[i];j++)
+        {
+            dp[j+A[i]] += dp[j];
+            dp[j+A[i]] %=1000007;
+        }
+    }
+    return dp[B];
+}
+_____________________________________________________________________________
+
+Remove half nodes:
+Given a binary tree A with N nodes. You have to remove all the half nodes and return the final binary tree.
+
+TreeNode* util ( TreeNode* temp )
+{
+    //base case
+    if ( temp == NULL )
+        return NULL ; 
+    if ( temp->left == NULL && temp->right == NULL )
+        return temp ; 
+    temp->left = util (temp->left) ;
+    temp->right = util (temp->right) ;
+    if ( temp->left != NULL && temp->right != NULL )
+        return temp ; 
+    if ( temp->left != NULL )
+        return temp->left ;
+    if (temp->right != NULL )
+        return temp->right ; 
+}
+ 
+TreeNode* Solution::solve(TreeNode* A) {
+    TreeNode* temp =  A ;
+    TreeNode* val = util ( temp ) ;
+    return val ; 
+}
+_____________________________________________________________________________
+
+Very Very Very Good question 
+Populate Next Right Pointers Tree. Populate each next pointer to point to its next right node. If there is no next right node, the next pointer should be set to NULL. 
+This can be easily done using BFS but the catch here is we have to use O(1) space only.
+
+void Solution::connect(TreeLinkNode* A) {
+TreeLinkNode *curr=A;//curr level
+TreeLinkNode *head=NULL;//Next level head
+TreeLinkNode *pre=NULL;//Next level pre(Means by sitting on upper level we connect child)
+while(curr!=NULL)
+{
+    while(curr!=NULL)//Join all nodes on current level.... 
+    {
+        if(curr->left!=NULL)
+        {
+            if(pre==NULL)
+               head=curr->left;//head of next level(Means very first node of next level)....
+            else
+               pre->next=curr->left;
+               pre=curr->left;
+        }
+        if(curr->right!=NULL)
+        {
+            if(pre==NULL)
+            head=curr->right;//head of next level(Means very first node of next level)....
+            else
+            pre->next=curr->right;
+            pre=curr->right;
+        }
+        curr=curr->next;//Go to the next node of same level....
+    }
+    // Congo we complete this level....
+    // Now,Just do Same for all levels....  
+    curr=head;
+    head=NULL;
+    pre=NULL;
+}
+}
+_____________________________________________________________________________
