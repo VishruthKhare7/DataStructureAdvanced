@@ -1,0 +1,66 @@
+// C++ program for the above approach 
+#include <bits/stdc++.h> 
+using namespace std; 
+  
+// Function to find the number of 
+// substrings that can be formed 
+// using given characters 
+void numberofsubstrings(string str, int k, 
+                        char charArray[]) 
+{ 
+    int N = str.length(); 
+  
+    // Boolean array for storing 
+    // the available characters 
+    bool available[26] = { 0 }; 
+  
+    // Mark indices of all 
+    // available characters as 1 
+    for (int i = 0; i < k; i++) { 
+        available[charArray[i] - 'a'] = 1; 
+    } 
+  
+    // Intialize lastPos as -1 
+    int lastPos = -1; 
+  
+    // Initialize ans with the total 
+    // no of possible substrings 
+    int ans = (N * (N + 1)) / 2; 
+  
+    // Traverse the string from 
+    // left to right 
+    for (int i = 0; i < N; i++) { 
+  
+        // If the current character 
+        // is not present in B 
+        if (available[str[i] - 'a'] == 0) { 
+  
+            // Subtract the total possible 
+            // substrings 
+            ans -= ((i - lastPos) 
+                    * (N - i)); 
+  
+            // Update the value of 
+            // lastpos to current index 
+            lastPos = i; 
+        } 
+    } 
+  
+    // Print the final answer 
+    cout << ans << endl; 
+} 
+  
+// Driver Code 
+int main() 
+{ 
+    // Given String 
+    string str = "abcb"; 
+    int k = 2; 
+  
+    // Given character array 
+    char charArray[k] = { 'a', 'b' }; 
+  
+    // Function Call 
+    numberofsubstrings(str, k, charArray); 
+    return 0; 
+}
